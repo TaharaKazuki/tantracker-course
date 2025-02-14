@@ -4,7 +4,8 @@
     "moduleResolution": "Bundler",
     "module": "Preserve",
     "target": "ES2022",
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "strictNullChecks": true
   },
   "exclude": ["node_modules"],
   "editor.formatOnSave": true,
