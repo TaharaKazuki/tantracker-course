@@ -1,3 +1,11 @@
+import {
+  ClerkProvider,
+  SignedIn,
+  SignedOut,
+  SignInButton,
+  SignUpButton,
+  UserButton,
+} from '@clerk/tanstack-start';
 import poppins100 from '@fontsource/poppins/100.css?url';
 import poppins200 from '@fontsource/poppins/200.css?url';
 import poppins300 from '@fontsource/poppins/300.css?url';
@@ -8,10 +16,18 @@ import poppins700 from '@fontsource/poppins/700.css?url';
 import poppins800 from '@fontsource/poppins/800.css?url';
 import poppins900 from '@fontsource/poppins/900.css?url';
 import { Outlet } from '@tanstack/react-router';
-import { createRootRoute, HeadContent, Scripts } from '@tanstack/react-router';
+import {
+  createRootRoute,
+  HeadContent,
+  Scripts,
+  Link,
+} from '@tanstack/react-router';
+import { ChartColumnBigIcon } from 'lucide-react';
 import type { ReactNode } from 'react';
 
 import appCss from '../app.css?url';
+
+import { Button } from '@/components/ui/button';
 
 export const Route = createRootRoute({
   head: () => ({
@@ -53,14 +69,46 @@ function RootComponent() {
 
 function RootDocument({ children }: { children: ReactNode }) {
   return (
-    <html>
-      <head>
-        <HeadContent />
-      </head>
-      <body>
-        {children}
-        <Scripts />
-      </body>
-    </html>
+    <ClerkProvider>
+      <html>
+        <head>
+          <HeadContent />
+        </head>
+        <body>
+          <nav className="flex h-20 items-center justify-between bg-primary p-4 text-white">
+            <Link to="/" className="flex items-center gap-1 text-2xl font-bold">
+              <ChartColumnBigIcon className="text-lime-500" /> TanTracker
+            </Link>
+            <div>
+              <SignedOut>
+                <div className="flex items-center text-white">
+                  <Button asChild variant="link" className="text-white">
+                    <SignInButton />
+                  </Button>
+                  <div className="h-8 w-[1px] bg-zinc-700" />
+                  <Button asChild variant="link" className="text-white">
+                    <SignUpButton />
+                  </Button>
+                </div>
+              </SignedOut>
+              <SignedIn>
+                <UserButton
+                  showName
+                  appearance={{
+                    elements: {
+                      userButtonOuterIdentifier: {
+                        color: 'white',
+                      },
+                    },
+                  }}
+                />
+              </SignedIn>
+            </div>
+          </nav>
+          {children}
+          <Scripts />
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }
