@@ -1,6 +1,8 @@
 import { createRootRoute, HeadContent, Scripts } from '@tanstack/react-router';
 import { Outlet } from '@tanstack/react-router';
-import * as React from 'react';
+import type { ReactNode } from 'react';
+
+import appCss from '../app.css?url';
 
 export const Route = createRootRoute({
   head: () => ({
@@ -16,6 +18,7 @@ export const Route = createRootRoute({
         title: 'TanStack Start Starter',
       },
     ],
+    links: [{ rel: 'stylesheet', href: appCss }],
   }),
   component: RootComponent,
 });
@@ -28,7 +31,7 @@ function RootComponent() {
   );
 }
 
-function RootDocument({ children }: { children: React.ReactNode }) {
+function RootDocument({ children }: { children: ReactNode }) {
   return (
     <html>
       <head>
