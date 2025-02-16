@@ -28,8 +28,20 @@ import type { ReactNode } from 'react';
 import appCss from '../app.css?url';
 
 import { Button } from '@/components/ui/button';
+import { getSignedInUserId } from '@/data/getSignedInUserId';
 
 export const Route = createRootRoute({
+  notFoundComponent: () => {
+    return (
+      <div className="py-10 text-center text-3xl text-muted-foreground">
+        Oops! Page not found
+      </div>
+    );
+  },
+  beforeLoad: async () => {
+    const userId = await getSignedInUserId();
+    return { userId };
+  },
   head: () => ({
     meta: [
       {
