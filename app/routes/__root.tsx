@@ -15,7 +15,7 @@ import poppins600 from '@fontsource/poppins/600.css?url';
 import poppins700 from '@fontsource/poppins/700.css?url';
 import poppins800 from '@fontsource/poppins/800.css?url';
 import poppins900 from '@fontsource/poppins/900.css?url';
-import { Outlet } from '@tanstack/react-router';
+import { Outlet, useNavigate } from '@tanstack/react-router';
 import {
   createRootRoute,
   HeadContent,
@@ -80,6 +80,8 @@ function RootComponent() {
 }
 
 function RootDocument({ children }: { children: ReactNode }) {
+  const navigate = useNavigate();
+
   return (
     <ClerkProvider>
       <html>
@@ -113,7 +115,19 @@ function RootDocument({ children }: { children: ReactNode }) {
                       },
                     },
                   }}
-                />
+                >
+                  <UserButton.MenuItems>
+                    <UserButton.Action
+                      label="Dashboard"
+                      labelIcon={<ChartColumnBigIcon size={16} />}
+                      onClick={() => {
+                        navigate({
+                          to: '/dashboard',
+                        });
+                      }}
+                    />
+                  </UserButton.MenuItems>
+                </UserButton>
               </SignedIn>
             </div>
           </nav>
