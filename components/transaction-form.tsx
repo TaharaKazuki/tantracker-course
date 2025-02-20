@@ -41,10 +41,17 @@ export function TransactionForm() {
     },
   });
 
+  const handleSubmit = (data: TransactionSchemaType) => {
+    console.info(data);
+  };
+
   return (
     <Form {...form}>
-      <form>
-        <fieldset className="grid grid-cols-2 gap-x-2 gap-y-5">
+      <form onSubmit={form.handleSubmit(handleSubmit)}>
+        <fieldset
+          disabled={form.formState.isSubmitting}
+          className="grid grid-cols-2 gap-x-2 gap-y-5"
+        >
           {/* Transaction Type */}
           <FormField
             control={form.control}
@@ -157,7 +164,12 @@ export function TransactionForm() {
             }}
           />
         </fieldset>
-        <fieldset className="mt-5 flex flex-col gap-5">
+
+        {/* Description */}
+        <fieldset
+          disabled={form.formState.isSubmitting}
+          className="mt-5 flex flex-col gap-5"
+        >
           <FormField
             control={form.control}
             name="description"
