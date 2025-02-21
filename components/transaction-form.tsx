@@ -84,7 +84,7 @@ export function TransactionForm() {
             render={({ field }) => {
               return (
                 <FormItem>
-                  <FormLabel>Transaction Type</FormLabel>
+                  <FormLabel>Category</FormLabel>
                   <FormControl>
                     <Select
                       value={field.value.toString()}
