@@ -23,13 +23,18 @@ import {
   SelectValue,
 } from './ui/select';
 
+import { categoriesTable } from '@/db/schema';
 import { cn } from '@/lib/utils';
 import {
   transactionFormSchema,
   TransactionSchemaType,
 } from '@/schema/transactionFormSchema';
 
-export function TransactionForm() {
+type Props = {
+  categories: (typeof categoriesTable.$inferSelect)[];
+};
+
+export function TransactionForm({ categories }: Props) {
   const form = useForm<TransactionSchemaType>({
     resolver: zodResolver(transactionFormSchema),
     defaultValues: {
@@ -44,6 +49,10 @@ export function TransactionForm() {
   const handleSubmit = (data: TransactionSchemaType) => {
     console.info(data);
   };
+
+  const filteredCategories = categories.filter(
+    (category) => category.type === form.getValues('transactionType')
+  );
 
   return (
     <Form {...form}>
@@ -93,7 +102,13 @@ export function TransactionForm() {
                       <SelectTrigger>
                         <SelectValue placeholder="Category" />
                       </SelectTrigger>
-                      <SelectContent></SelectContent>
+                      <SelectContent>
+                        {filteredCategories.map(({ id, name }) => (
+                          <SelectItem key={id} value={id.toString()}>
+                            {name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
                     </Select>
                   </FormControl>
                   <FormMessage />
